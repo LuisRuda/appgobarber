@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   Image,
   View,
@@ -8,6 +8,7 @@ import {
   Keyboard,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+import { useNavigation } from '@react-navigation/native';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -24,15 +25,17 @@ import {
 } from './styles';
 
 const SignIn: React.FC = () => {
+  const navigation = useNavigation();
+
   const [keyboardShow, setKeyboardShow] = useState(false);
 
-  const keyboardDidShow = () => {
+  const keyboardDidShow = useCallback(() => {
     setKeyboardShow(true);
-  };
+  }, []);
 
-  const keyboardDidHide = () => {
-    setKeyboardShow(true);
-  };
+  const keyboardDidHide = useCallback(() => {
+    setKeyboardShow(false);
+  }, []);
 
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', keyboardDidShow);
@@ -76,9 +79,9 @@ const SignIn: React.FC = () => {
       </KeyboardAvoidingView>
 
       {!keyboardShow && Platform.OS !== 'ios' && (
-        <CreateAccountButton>
+        <CreateAccountButton onPress={() => navigation.navigate('SignUp')}>
           <Icon name="log-in" size={20} color="#ff9000" />
-          <CreateAccountButtonText>Criar conta</CreateAccountButtonText>
+          <CreateAccountButtonText>Criar uma conta</CreateAccountButtonText>
         </CreateAccountButton>
       )}
     </>

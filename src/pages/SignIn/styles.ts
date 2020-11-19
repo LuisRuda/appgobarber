@@ -1,9 +1,10 @@
 import styled from 'styled-components/native';
+import { Platform } from 'react-native';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 export const Container = styled.View`
   flex: 1;
-  padding: 0 30px;
+  padding: 0 30px ${Platform.OS === 'android' ? 120 : 40}px;
   align-items: center;
   justify-content: center;
 `;
